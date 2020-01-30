@@ -11,5 +11,9 @@ namespace onlineMarketplace.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-    }
+        private List<Product> Products = new List<Product>
+        {
+            new Product {Id =001, ProductName }
+        }
+     }
 }
