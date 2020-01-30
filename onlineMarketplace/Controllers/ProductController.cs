@@ -13,52 +13,66 @@ namespace onlineMarketplace.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private List<Product> Products = new List<Product>
+        private List<Product> _oProducts = new List<Product>
         {
-            new Product {Id ="001", ProductName = "Lavender heart", Price = 9.25 },
-            new Product {Id ="002", ProductName = "Personalised cufflinks", Price = 45.00 },
-            new Product {Id ="003", ProductName = "Kids T-shirt", Price = 19.95 },
+            new Product {Id =001, ProductName = "Lavender heart", Price = 9.25 },
+            new Product {Id =002, ProductName = "Personalised cufflinks", Price = 45.00 },
+            new Product {Id =003, ProductName = "Kids T-shirt", Price = 19.95 },
         };
 
         [HttpGet]
-        public ActionResult<List<Product>> Get()
+        public IActionResult Gets()
         {
-            return Ok(Products);
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public ActionResult<Product> Get(string id)
-        {
-            var stock = Products.Find(item =>
-            //I could not find the integer altenate to StringComparison so chaned id to string in the models
-                    item.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
-
-            if (stock == null)
+            if (_oProducts.Count == 0)
             {
                 return NotFound("404 for an unknown product ID");
-            } else
-            {
-                return Ok(stock);
             }
+            return Ok(_oProducts);
         }
 
-        [HttpPost]
-        public ActionResult Post(Product product)
-        {
-            var existingProduct = Products.Find(item =>
-                    item.Id.Equals(product.Id, StringComparison.InvariantCultureIgnoreCase));
-
-            if (existingProduct != null)
-            {
-                return Conflict("Product already exists.");
-            }
-            else
-            {
-                Products.Add(product);
-                var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeUriString(product.Id));
-                return Created(resourceUrl, product);
-            }
-        }
     }
+
 }
+
+//        [HttpGet]
+//        public ActionResult<List<Product>> Get()
+//        {
+//            return Ok(Products);
+//        }
+
+//        [HttpGet]
+//        [Route("{id}")]
+//        public ActionResult<Product> Get(string id)
+//        {
+//            var stock = Products.Find(item =>
+//            //I could not find the integer altenate to StringComparison so chaned id to string in the models
+//                    item.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+
+//            if (stock == null)
+//            {
+//                return NotFound("404 for an unknown product ID");
+//            } else
+//            {
+//                return Ok(stock);
+//            }
+//        }
+
+//        [HttpPost]
+//        public ActionResult Post(Product product)
+//        {
+//            var existingProduct = Products.Find(item =>
+//                    item.Id.Equals(product.Id, StringComparison.InvariantCultureIgnoreCase));
+
+//            if (existingProduct != null)
+//            {
+//                return Conflict("Product already exists.");
+//            }
+//            else
+//            {
+//                Products.Add(product);
+//                var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeUriString(product.Id));
+//                return Created(resourceUrl, product);
+//            }
+//        }
+//    }
+//}
