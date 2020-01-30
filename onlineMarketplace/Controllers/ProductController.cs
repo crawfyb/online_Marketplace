@@ -42,6 +42,17 @@ namespace onlineMarketplace.Controllers
             return Ok(oProduct);
         }
 
+        [HttpPost]
+        public IActionResult Save(Product oProduct)
+        {
+            _oProducts.Add(oProduct);
+            if(_oProducts.Count == 0)
+            {
+                return NotFound("No product found");
+            }
+            return Ok(_oProducts);
+        }
+
     }
 
 }
