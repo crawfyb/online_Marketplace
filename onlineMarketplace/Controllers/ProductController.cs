@@ -25,9 +25,21 @@ namespace onlineMarketplace.Controllers
         {
             if (_oProducts.Count == 0)
             {
-                return NotFound("404 for an unknown product ID");
+                return NotFound("404 no products found");
             }
             return Ok(_oProducts);
+        }
+
+        [HttpGet("GetProduct")]
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            var oProduct = _oProducts.SingleOrDefault(x => x.Id == id);
+            if (oProduct == null)
+            {
+                return NotFound("404 for an unknown product ID");
+            }
+            return Ok(oProduct);
         }
 
     }
