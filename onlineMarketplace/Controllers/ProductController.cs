@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,24 @@ namespace onlineMarketplace.Controllers
             } else
             {
                 return Ok(stock);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Post(Product product)
+        {
+            var existingProduct = Products.Find(item =>
+                    item.Id.Equals(product.Id, StringComparison.InvariantCultureIgnoreCase));
+
+            if (existingProduct != null)
+            {
+                return Conflict("Product already exists.");
+            }
+            else
+            {
+                Products.Add(product);
+                var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeUriString(product.Id));
+                return Created(resourceUrl, product);
             }
         }
     }
