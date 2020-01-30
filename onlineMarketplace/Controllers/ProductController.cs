@@ -29,12 +29,13 @@ namespace onlineMarketplace.Controllers
         [Route("{id}")]
         public ActionResult<Product> Get(string id)
         {
-            var stock = Products.Find(item => 
+            var stock = Products.Find(item =>
+            //I could not find the integer altenate to StringComparison so chaned id to string in the models
                     item.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 
             if (stock == null)
             {
-                return NotFound();
+                return NotFound("404 for an unknown product ID");
             } else
             {
                 return Ok(stock);
