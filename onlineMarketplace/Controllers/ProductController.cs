@@ -53,6 +53,23 @@ namespace onlineMarketplace.Controllers
             return Ok(_oProducts);
         }
 
+        [HttpDelete]
+        public IActionResult DeleteProduct(int id)
+        {
+            var oProduct = _oProducts.SingleOrDefault(x => x.Id == id);
+            if(oProduct == null)
+            {
+                return NotFound("404 for an unknown product ID");
+            }
+            _oProducts.Remove(oProduct);
+
+            if (_oProducts.Count == 0)
+            {
+                return NotFound("No product found");
+            }
+            return Ok(_oProducts);
+        }
+
     }
 
 }
